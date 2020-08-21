@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Aug  9 16:08:38 2019
-
-@author: Mano
-"""
-
 # 가장 최근 5화
 
 from __future__ import unicode_literals
