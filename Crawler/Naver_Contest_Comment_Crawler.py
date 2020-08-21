@@ -1,17 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Aug 14 22:10:12 2019
-
-@author: Mano
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Aug 14 21:57:18 2019
-
-@author: Mano
-"""
-
 import requests as rq
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs, urljoin
