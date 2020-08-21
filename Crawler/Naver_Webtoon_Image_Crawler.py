@@ -1,5 +1,3 @@
-# 가장 최근 5화
-
 from __future__ import unicode_literals
 from urllib.parse import urlparse, parse_qs, urljoin
 import requests as rq
