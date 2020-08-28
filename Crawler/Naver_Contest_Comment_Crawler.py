@@ -18,7 +18,6 @@ def save(data, file_name):
 
 def data_parse(soup, url):
 
-    hangul = re.compile('[^ 가-힣]+')
     titleId = str(parse_qs(urlparse(url).query)['titleId'][0])
     title_1 = rq.get(url)
     title_2 = BeautifulSoup(title_1.content, 'lxml')
@@ -53,10 +52,9 @@ def data_parse(soup, url):
                 userid = comment['maskedUserId']
                 usernickname = comment['userName']
                 comment_time = comment['modTime'][0:10]
-                c = comment['contents'].replace('\n', '').replace('\r', '').replace('\t', '')
+                result = comment['contents'].replace('\n', '').replace('\r', '').replace('\t', '')
                 like = comment['sympathyCount']
                 unlike = comment['antipathyCount']
-                result = hangul.sub('', c)
                 final = str(userid) + ',' + str(usernickname) + ',' + str(comment_time) + ',' + str(title) + ',' + str(page_count) + ',' + str(result) + ',' + str(like) + ',' + str(unlike)
                 save(final, 'comment.txt')
                 
