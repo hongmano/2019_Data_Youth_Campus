@@ -3,10 +3,9 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs, urljoin
 import os
 import json
-import re
 import time
 
-os.chdir('C:\\Users\\Mano\\Desktop\\co')
+os.chdir('C:\\Users\\Mano\\Desktop\\새 폴더')
 
 start = time.time()
 NAVER_URL = 'http://comic.naver.com'
@@ -50,7 +49,6 @@ def get_all_webtoon(webtoon, is_save):
                 
         for a_tag in a_tags:
             
-            t = a_tag.text.replace('\n', '').replace('\r', '').replace('\t', '')
             h = urljoin(NAVER_URL, a_tag.get('href'))
             
             if h not in target_webtoons:
@@ -68,7 +66,6 @@ def get_all_webtoon(webtoon, is_save):
 
 def data_parse(soup, url):
     
-    hangul = re.compile('[^ ㄱ-ㅣ 가-힣]+')
     titleId = str(parse_qs(urlparse(url).query)['titleId'][0])
     no = str(parse_qs(urlparse(url).query)['no'][0])
     
@@ -77,8 +74,7 @@ def data_parse(soup, url):
     page_count = 1
     
     u = 'http://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=comic&templateId=webtoon&pool=cbox3&_callback=jQuery1124012459877334097458_1565172327568&lang=ko&country=KR&objectId=' + objectId + '&categoryId=&pageSize=15&indexSize=10&groupId=&listType=OBJECT&sort=NEW&_=1565172327571'
-    hangul = re.compile('[^ 가-힣]+')
-    title = soup.select('.comicinfo h2')[0].text.split('\r')[0]
+    title = soup.select('.comicinfo h2')[0].text.split('\t')[0].rstrip()
     
     while True:
         
@@ -107,11 +103,9 @@ def data_parse(soup, url):
                 userid = comment['maskedUserId']
                 usernickname = comment['userName']
                 comment_time = comment['modTime'][0:10]
-                c = comment['contents'].replace('\n', '').replace('\r', '').replace('\t', '')
+                result = comment['contents'].replace('\n', '').replace('\r', '').replace('\t', '')
                 like = comment['sympathyCount']
                 unlike = comment['antipathyCount']
-                result = hangul.sub('', c)
-                c = comment['contents'].replace('\n', '').replace('\r', '').replace('\t', '')
                 final = str(userid) + ',' + str(usernickname) + ',' + str(comment_time) + ',' + str(title) + ',' + str(no) + ',' + str(page_count) + ',' + str(result) + ',' + str(like) + ',' + str(unlike)
                 save(final, 'comment.txt')
                 
@@ -131,7 +125,7 @@ def data_parse(soup, url):
 if __name__ == '__main__':
     urls = list()
     test = list()
-    for_adult = ['닥터 하운드', '살인자o난감 (재)', '피와 살', '헬58', '헬퍼 2 : 킬베로스', '소유', '사냥개들', '살人스타그램', '압락사스', '스퍼맨: 현자단의 역습']         
+    for_adult = ['살人스타그램', '헬퍼 2 : 킬베로스', '운수 오진 날', '헬58', '토끼대왕', '피와 살', '침범', '사냥개들', '닥터 하운드', '압락사스', '피노키오 소녀']         
     webtoons = get_daily_webtoon()
     for _ in range(len(webtoons)):
         if webtoons[_]['title'] not in for_adult:
@@ -140,7 +134,6 @@ if __name__ == '__main__':
             
 for webtoon in test:
     urls.append(get_all_webtoon(webtoon, False)[::-1][0:5])
-
 
 for _ in range(len(urls)):
     for __ in range(len(urls[_])):
