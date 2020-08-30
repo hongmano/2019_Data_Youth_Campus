@@ -144,3 +144,4 @@ for _ in range(len(urls)):
 end = time.time()
 
 print('웹툰 1~5화 댓글 크롤링에 걸린 시간은 {}분 입니다.'.format(round((end - start) / 60, 0)))
+웹툰 1~5화 댓글 크롤링에 걸린 시간은 1058.0분 입니다.
