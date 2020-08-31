@@ -66,6 +66,7 @@ def get_all_webtoon(webtoon, is_save):
 
 def data_parse(soup, url):
     
+    hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     titleId = str(parse_qs(urlparse(url).query)['titleId'][0])
     no = str(parse_qs(urlparse(url).query)['no'][0])
     
@@ -104,6 +105,7 @@ def data_parse(soup, url):
                 usernickname = comment['userName']
                 comment_time = comment['modTime'][0:10]
                 result = comment['contents'].replace('\n', '').replace('\r', '').replace('\t', '')
+                result = hangul.sub('', result)
                 like = comment['sympathyCount']
                 unlike = comment['antipathyCount']
                 final = str(userid) + ',' + str(usernickname) + ',' + str(comment_time) + ',' + str(title) + ',' + str(no) + ',' + str(page_count) + ',' + str(result) + ',' + str(like) + ',' + str(unlike)
@@ -144,4 +146,3 @@ for _ in range(len(urls)):
 end = time.time()
 
 print('웹툰 1~5화 댓글 크롤링에 걸린 시간은 {}분 입니다.'.format(round((end - start) / 60, 0)))
-웹툰 1~5화 댓글 크롤링에 걸린 시간은 1058.0분 입니다.
