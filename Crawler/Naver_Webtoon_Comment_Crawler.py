@@ -4,6 +4,7 @@ from urllib.parse import urlparse, parse_qs, urljoin
 import os
 import json
 import time
+import re
 
 os.chdir('C:\\Users\\Mano\\Desktop\\새 폴더')
 
